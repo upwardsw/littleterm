@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<body>
+<div>
+    <form action="/register" method="post">
+        <table>
+            <tr>
+                <td>username:</td><td><input type="text" id="username" name="username" required></td>
+            </tr>
+            <tr>
+                <td>email:</td><td><input type="email" id="useremail" name="useremail" required></td>
+            </tr>
+            <tr>
+                <td>course:</td><td><input type="number" id="course" name="course" required></td>
+            </tr>
+            <tr>
+                <td>password:</td><td><input type="password" id="userpassword" name="userpassword" required></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="register"><td>
+                <a href="/login"><input type="button" value="login"></a> </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

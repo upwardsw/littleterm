@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加填空题</title>
+</head>
+<body>
+<div>
+    <form action="/addtiankong" method="post">
+        <table>
+            <tr>
+                <td>question:</td><td><input type="text" id="question" name="question" required></td>
+            </tr>
+            <tr>
+                <td>course:</td><td><input type="text" id="course" name="course" required></td>
+            </tr>
+            <tr>
+                <td>level:</td><td><input type="number"  id="level" name="level" max="5" min="1" required></td>
+            </tr>
+            <tr>
+                <td>answer:</td><td><input type="text" id="answer" name="answer" required></td>
+            </tr>
+            <tr><td><input type="submit" value="submit"><td></td></tr>
+        </table>
+    </form>
+    <p>{{ msg }}</p>
+</div>
+</body>
+</html>
