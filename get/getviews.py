@@ -20,9 +20,6 @@ engine = create_engine(
 DBSession = sessionmaker(bind=engine)
 
 
-
-
-
 @get.route('/username')
 @login_required
 def getusername():

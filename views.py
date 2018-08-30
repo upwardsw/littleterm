@@ -10,6 +10,7 @@ from flask import Flask, url_for, Response
 from flask.json import jsonify
 from flask_login import LoginManager
 from flask import redirect, request, render_template
+from flask_bootstrap import Bootstrap
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy import *
@@ -21,6 +22,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '`~1!2@3#4$5%6^7&8*9(0)-_=+'
 login_manager = LoginManager()
 login_manager.init_app(app)
+Bootstrap(app)
 login_manager.login_view = "login"
 login_manager.session_protection = "strong"
 

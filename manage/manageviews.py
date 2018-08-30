@@ -18,3 +18,11 @@ engine = create_engine(
     'mysql+pymysql://arlen:5609651Wmm!@47.94.138.25:3306/papergenerate?charset=utf8', encoding="utf-8", echo=True,
     pool_recycle=21600, pool_size=8, max_overflow=5)
 DBSession = sessionmaker(bind=engine)
+
+
+@manage.route('/main',methods=['GET','POST'])
+def managemain():
+    user = current_user._get_current_object()
+    privilege = 'user'
+    if user.course == 0: privilege = 'admin'
+    return render_template('manage.html',username=user.username,privilege=privilege)
