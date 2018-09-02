@@ -1,35 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+{% block html_attribs %} <meta lang="zh" charset="UTF-8">{% endblock %}
 <head>
-    <meta charset="UTF-8">
-    <title>papergenerate system</title>
+    {% block title %}<title>试卷生成系统</title>{% endblock %}
 </head>
-<body>
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+    <div style=" float:left" align="left"><label><a href="/main">首页</a></label></div><div align="right"><select onchange="window.open(this.options[this.selectedIndex].value,target='_self')"><option selected>{{ privilege }}:{{ user.username }}</option><option value="/logout">注销登录</option></select></div>
+</div>
+{% endblock %}
+
+{% block content %}
+  <div align="center"><h1>试卷生成系统</h1></div>
+{% endblock %}
+<div style="width: 300px;height:200px;margin: 0 auto;">
 <table>
     <tr>
-        <td>name:</td><td>{{ user.username }}</td>
+        <th>昵称:</th><td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <th>邮箱:</th><td>{{ user.email }}</td>
     </tr>
      <tr>
-        <td>id:</td><td>{{ user.userid }}</td>
+        <th>id:</th><td>{{ user.userid }}</td>
     </tr>
      <tr>
-        <td>privilege:</td><td>{{ privilege }}</td>
+        <th>权限:</th><td>{{ privilege }}</td>
     </tr>
     <tr>
-        <td>manage question:</td><td><a href="managequestionpage">click here</a></td>
+        <th>管理非选择题:</th><td><a href="/manage/unchoice">click here</a></td>
     </tr>
     <tr>
-        <td>manage paper:</td><td><a href="managepaperpage">click here</a></td>
+        <th>管理选择题:</th><td><a href="/manage/choice">click here</a></td>
     </tr>
     <tr>
-        <td>generate paper:</td><td><a href="generatepage">click here</a></td>
+        <th>生成试卷:</th><td><a href="/generatepage/byhand">click here</a></td>
     </tr>
     <tr>
-        <td>generate paper(auto):</td><td><a href="autogeneratepage">click here</a></td>
-    </tr>
-    <tr>
-        <td>log out:</td><td><a href="logout">click here</a></td>
+        <th>自动生成试卷:</th><td><a href="/generate/auto">click here</a></td>
     </tr>
 </table>
+</div>
 </body>
 </html>

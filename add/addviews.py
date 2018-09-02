@@ -49,7 +49,7 @@ def adddati():
         session.commit()
 
         session.close()
-        return render_template('adddati.html',msg='add successfully!')
+        return render_template('adddati.html',msg='提交成功!')
     else:
         return render_template('adddati.html')
 
@@ -80,7 +80,7 @@ def addtiankong():
         session.commit()
 
         session.close()
-        return render_template('addtiankong.html', msg='add successfully!')
+        return render_template('addtiankong.html', msg='提交成功!')
     else:
         return render_template('addtiankong.html')
 
@@ -119,7 +119,7 @@ def addchoice():
             session.commit()
 
         session.close()
-        return render_template('addchoice.html',msg='add successfully!')
+        return render_template('addchoice.html',msg='提交成功!')
 
 
 
@@ -151,7 +151,7 @@ def addjudge():
         session.add(addanswer)
         session.commit()
         session.close()
-        return render_template('addjudege.html',msg='add successfully!')
+        return render_template('addjudege.html',msg='提交成功!')
     else:
         return render_template('addjudege.html')
 
@@ -184,6 +184,6 @@ def addjiandati():
         session.commit()
 
         session.close()
-        return render_template('addjiandati.html',msg='add successfully!')
+        return render_template('addjiandati.html',msg='提交成功!')
     else:
         return render_template('addjiandati.html')

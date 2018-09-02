@@ -20,13 +20,13 @@ engine = create_engine(
 DBSession = sessionmaker(bind=engine)
 
 
-@generate.route('/generatepage', methods=['GET', 'POST'])
+@generate.route('/byhand', methods=['GET', 'POST'])
 @login_required
 def generatepage():
     return '!!!!'
 
 
-@generate.route('/managepaperpage', methods=['GET', 'POST'])
+@generate.route('/auto', methods=['GET', 'POST'])
 @login_required
 def managepaperpage():
     return '!!!!'

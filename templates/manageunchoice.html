@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% block html_attribs %} <meta lang="zh" charset="UTF-8">{% endblock %}
+<head>
+    {% block title %}<title>管理非选择题</title>{% endblock %}
+</head>
+<body>
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+    <div style=" float:left" align="left"><label><a href="/main">首页</a></label></div><div align="right"><select onchange="window.open(this.options[this.selectedIndex].value,target='_self')"><option selected>{{ privilege }}:{{ username }}</option><option value="/logout">注销登录</option></select></div>
+</div>
+{% endblock %}
+
+{% block content %}
+  <div align="center"><h3>管理非选择题</h3></div>
+{% endblock %}
+
+{% block tables %}
+<div style="margin: 0 auto;text-align:center">
+<table cellpadding="10" style="color: black;background: antiquewhite;align-content: center;">
+    <p>点击添加按钮将题目添加到当前试卷</p>
+    <tr>
+        <td>序号</td><td>题目</td><td>答案</td><td>有效</td><td>修改</td><td>添加</td>
+    </tr>
+</table>
+</div>
+{% endblock %}
+</body>
+</html>

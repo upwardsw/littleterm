@@ -48,8 +48,8 @@ def getuseremail():
 @login_required
 def getuserprivilege():
     cuser = current_user._get_current_object()
-    privilege = 'user'
-    if cuser.course == 0: privilege = 'admin'
+    privilege = '普通用户'
+    if cuser.course == 0: privilege = '管理员'
     return Response(response=privilege)
 
 
@@ -61,7 +61,7 @@ def getanswer(qid):
         data = session.query(question).filter(question.qid == qid).first()
         print(data)
         if data.delornot == 1:
-            return 'question id is invalid!'
+            return '该问题已失效!'
         else:
             # jiandati
             if data.type == 1:
@@ -96,7 +96,7 @@ def getanswer(qid):
                 answer = '{}'.format(session.query(qanswer).filter(qanswer.question_qid == data.qid).first().qanswer)
                 return Response(response=json.dumps(answer, ensure_ascii=False))
     except:
-        return Response(response=json.dumps('question id {} is not exist!'.format(qid), ensure_ascii=False),status=500)
+        return Response(response=json.dumps('该问题不存在!', ensure_ascii=False),status=500)
     session.close()
 
 

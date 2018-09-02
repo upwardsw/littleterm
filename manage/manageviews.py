@@ -20,9 +20,25 @@ engine = create_engine(
 DBSession = sessionmaker(bind=engine)
 
 
-@manage.route('/main',methods=['GET','POST'])
-def managemain():
-    user = current_user._get_current_object()
-    privilege = 'user'
-    if user.course == 0: privilege = 'admin'
-    return render_template('manage.html',username=user.username,privilege=privilege)
+@manage.route('/unchoice',methods=['GET','POST'])
+@login_required
+def manageunchoice():
+    if request.method=='POST':
+        pass
+    else:
+        user = current_user._get_current_object()
+        privilege = '普通用户'
+        if user.course == 0: privilege = '管理员'
+        return render_template('manageunchoice.html',username=user.username,privilege=privilege)
+
+
+@manage.route('/choice',methods=['GET','POST'])
+@login_required
+def managechoice():
+    if request.method=='POST':
+        pass
+    else:
+        user = current_user._get_current_object()
+        privilege = '普通用户'
+        if user.course == 0: privilege = '管理员'
+        return render_template('managechoice.html',username=user.username,privilege=privilege)

@@ -52,13 +52,20 @@ def register():
         course=request.form['course']
         password=generate_password_hash(password)
         print(email)
-        adduser=User(password=password,username=username,email=email,course=course)
-        session.add(adduser)
-        session.commit()
+        if session.query(User).filter(User.email==email).first():
+            return render_template('register.html',msg='该邮箱已被注册！')
+        else:
+            adduser=User(password=password,username=username,email=email,course=course)
+            session.add(adduser)
+            session.commit()
 
-        session.close()
 
-        return redirect(url_for('login'))
+            print(adduser.username)
+            if course == 0:
+                privilege = '管理员'
+            else:
+                privilege = '普通用户'
+            return render_template('registerok.html',user=adduser,privilege=privilege)
     else:
         return render_template('register.html')
 
@@ -97,15 +104,15 @@ def login():
                 # return render_template('main.html', user=user.username)
             else:
                 connect.close()
-                return render_template('login.html', msg='login failed!')
+                return render_template('login.html', msg='登录失败，请检查邮箱和密码！')
         except:
             connect.close()
-            return render_template('login.html', msg='user {0} is not valid!'.format(email))
+            return render_template('login.html', msg='用户名'.format(email))
 
     else:
         next = request.values.get('next')
         print(next)
-        return render_template('login.html',nexturl=next)
+        return render_template('login.html',nexturl=next,)
 
 
 @app.route('/logout')
@@ -121,9 +128,9 @@ def main():
     # load current user to class user
     user = current_user._get_current_object()
     if user.course == 0:
-        privilege = 'admin'
+        privilege = '管理员'
     else:
-        privilege = 'user'
+        privilege = '普通用户'
     return render_template('main.html', user=user, privilege=privilege)
 
 

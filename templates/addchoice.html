@@ -9,21 +9,21 @@
     <form action="/add/choice" method="post">
         <table>
             <tr>
-                <td>question:</td><td><input type="text" id="question" name="question" required></td>
+                <td>问题:</td><td><input type="text" id="question" name="question" required></td>
             </tr>
             <tr>
-                <td>course:</td><td><input type="text" id="course" name="course" required></td>
+                <td>类别:</td><td><input type="text" id="course" name="course" required></td>
             </tr>
             <tr>
-                <td>level:</td><td><input type="number"  id="level" name="level" max="5" min="1" required></td>
+                <td>难度:</td><td><input type="number"  id="level" name="level" max="5" min="1" required></td>
             </tr>
             <tr>
-                <td>answer:</td><td><input type="text" id="answer" name="answer" required></td>
+                <td>答案:</td><td><input type="text" id="answer" name="answer" required></td>
             </tr>
             <tr>
-                <td>wrong answer:</td><td><input type="text" id="wronganswer" name="wronganswer" required></td>
+                <td>错误答案:</td><td><input type="text" id="wronganswer" name="wronganswer" required></td>
             </tr>
-            <tr><td><input type="submit" value="submit"><td></td></tr>
+            <tr><td><input type="submit" value="提交"><td></td></tr>
         </table>
     </form>
     <p>{{ msg }}</p>
