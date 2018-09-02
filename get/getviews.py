@@ -2,7 +2,7 @@ from . import get
 import json
 import re
 
-from flask import Flask, url_for, Response
+from flask import Flask, url_for, Response,send_from_directory
 from flask.json import jsonify
 from flask_login import LoginManager
 from flask import redirect, request, render_template
@@ -109,3 +109,8 @@ def getquestion(qid):
     print(data)
     session.close()
     return Response(response=json.dumps(data, ensure_ascii=False))
+
+@get.route('/file/<filename>')
+def jsfiles(filename):
+    print(filename)
+    return send_from_directory('static/js',filename)
