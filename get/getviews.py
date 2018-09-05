@@ -13,10 +13,12 @@ from sqlalchemy.orm import *
 
 from tables import User, question, qanswer, choices
 
+from datetime import datetime
+current_time = datetime.utcnow()
 
 engine = create_engine(
     'mysql+pymysql://arlen:5609651Wmm!@47.94.138.25:3306/papergenerate?charset=utf8', encoding="utf-8", echo=True,
-    pool_recycle=21600, pool_size=8, max_overflow=5)
+    pool_recycle=21600, pool_size=20, max_overflow=12)
 DBSession = sessionmaker(bind=engine)
 
 
@@ -110,7 +112,32 @@ def getquestion(qid):
     session.close()
     return Response(response=json.dumps(data, ensure_ascii=False))
 
-@get.route('/file/<filename>')
+
+@get.route('/choices/<qid>')
+@login_required
+def getchoices(qid):
+    session = DBSession()
+    data = session.query(choices).filter(choices.question_qid == qid).all()
+    res=[]
+    for i in data:
+        res.append(dict(cid=i.cid,c=i.choice,tof=i.torf))
+    print(res)
+    session.close()
+    return Response(response=json.dumps(res, ensure_ascii=False), status=200)
+
+
+@get.route('/choice/<cid>')
+@login_required
+def getchoice(cid):
+    session=DBSession()
+    data = session.query(choices).filter(choices.cid == cid).first()
+    data=dict(qid=data.question_qid,cid=data.cid,c=data.choice,tof=data.torf)
+    print(data)
+    session.close()
+    return Response(response=json.dumps(data,ensure_ascii=False),status=200)
+
+
+@get.route('/paper/<filename>')
 def jsfiles(filename):
     print(filename)
     return send_from_directory('static/js',filename)

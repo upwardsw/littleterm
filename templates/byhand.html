@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% block html_attribs %}
+    <meta lang="zh" charset="UTF-8">
+    {{moment.include_jquery()}}
+    {{moment.include_moment()}}
+    <!--使用中文-->
+    {{moment.lang('zh-CN')}}
+{% endblock %}
+<head>
+    {% block title %}<title>试卷生成系统-手动生成</title>{% endblock %}
+</head>
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+    <div style=" float:left" align="left"><label><a href="/generate/byhand">返回上一级</a></label></div><div align="right"><select onchange="window.open(this.options[this.selectedIndex].value,target='_self')"><option selected>{{ privilege }}:{{ user.username }}</option><option value="/logout">注销登录</option></select></div>
+</div>
+{% endblock %}
+
+{% block content %}
+  <div align="center"><h1>手动生成试卷</h1></div>
+{% endblock %}
+<div style="width: 300px;height:200px;margin: 0 auto;">
+    <table>
+
+
+    <tr>
+        <th>添加非选择题:</th><td><a href="/manage/unchoice">点击此处</a></td>
+    </tr>
+    <tr>
+        <th>添加选择题:</th><td><a href="/manage/choice">点击此处</a></td>
+    </tr>
+    <tr>
+        <th>查看试卷题目:</th><td><a href="/shijuan">点击此处</a></td>
+    </tr>
+
+    </table>
+</div>
+{% block footer %}
+<div align="center" style="height: 50px;width: 100%;background-color: #ddd;position: fixed;bottom: 0;">
+    <p>{{moment(current_time).format('YYYY年M月D日, h:mm:ss a')}}</p>
+{% endblock %}
+</div>
+</body>
+</html>

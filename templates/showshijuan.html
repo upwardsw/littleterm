@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% block html_attribs %}
+    <meta lang="zh" charset="UTF-8">
+    {{moment.include_jquery()}}
+    {{moment.include_moment()}}
+    <!--使用中文-->
+    {{moment.lang('zh-CN')}}
+{% endblock %}
+<head>
+    {% block title %}<title>试卷生成系统-查看试卷</title>{% endblock %}
+</head>
+<body>
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+    <div style=" float:left" align="left"><label><a href="/main">首页</a></label></div><div align="right"><select onchange="window.open(this.options[this.selectedIndex].value,target='_self')"><option selected>{{ privilege }}:{{ username }}</option><option value="/logout">注销登录</option></select></div>
+</div>
+{% endblock %}
+
+{% block content %}
+  <div align="center"><h3>查看试卷</h3></div>
+{% endblock %}
+
+{% block tables %}
+<div style="margin: 0 auto;text-align:center">
+<a href="/manage/unchoice">添加非选择题</a>&nbsp;&nbsp;<a href="/manage/choice">添加选择题</a>
+<table cellpadding="10" style="height: auto;margin: 0 auto;color: black;background: antiquewhite;align-content: center;">
+{#    <p>点击添加按钮将题目添加到当前试卷</p>#}
+    <tr>
+        <td>序号</td><td>题目</td><td>类型</td><td>难度</td><td>类别</td><td>移除题目</td>
+    </tr>
+        {% for question in result %}<tr>
+            <td>{{ question[0] }}</td>
+            <td>{{ question[1] }}</td>
+            <td>{{ question[2] }}</td>
+            <td>{{ question[3] }}</td>
+            <td>{{ question[4] }}</td>
+            <td><input type="button" value="移除" onclick="deletequestion({{ question[0] }})"></td>
+            </tr>
+    {% endfor %}
+</table>
+{% if result %}
+<input type="button" value="清除试卷" onclick="delall()">
+<form action="/file" method="post">命名试卷：<input type="text" id="papername" name="papername" required><input type="submit" value="生成试卷"></form>
+{% endif %}
+</div>
+{% endblock %}
+{#<div>#}
+{#    <form method="post" action="/manage/choice">#}
+{#        <input type="number" id="start" name="start">#}
+{#        <input type="submit" value="submit">#}
+{#    </form>#}
+{#</div>#}
+{% block footer %}
+<div align="center" style="height: 50px;width: 100%;background-color: #ddd;position: fixed;bottom: 0;">
+    <p>{{moment(current_time).format('YYYY年M月D日, h:mm:ss a')}}</p>
+{% endblock %}
+<script>
+function deletequestion(qid) {
+        $.post("/deletequestion",{qid});
+    }
+    function delall() {
+        $.post("/delall");
+    }
+
+</script>
+</body>
+</html>

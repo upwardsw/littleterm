@@ -13,6 +13,8 @@ from sqlalchemy.orm import *
 
 from tables import User, question, qanswer, choices
 
+from datetime import datetime
+current_time = datetime.utcnow()
 
 engine = create_engine(
     'mysql+pymysql://arlen:5609651Wmm!@47.94.138.25:3306/papergenerate?charset=utf8', encoding="utf-8", echo=True,
@@ -49,9 +51,19 @@ def adddati():
         session.commit()
 
         session.close()
-        return render_template('adddati.html',msg='提交成功!')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('adddati.html',user=user, privilege=privilege,msg='提交成功!',current_time=current_time)
     else:
-        return render_template('adddati.html')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('adddati.html',user=user, privilege=privilege,current_time=current_time)
 
 
 @add.route('/tiankongti',methods=['GET','POST'])
@@ -80,9 +92,19 @@ def addtiankong():
         session.commit()
 
         session.close()
-        return render_template('addtiankong.html', msg='提交成功!')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('addtiankong.html',user=user, privilege=privilege, msg='提交成功!',current_time=current_time)
     else:
-        return render_template('addtiankong.html')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('addtiankong.html',user=user, privilege=privilege,current_time=current_time)
 
 
 @add.route('/choice',methods=['GET','POST'])
@@ -119,12 +141,22 @@ def addchoice():
             session.commit()
 
         session.close()
-        return render_template('addchoice.html',msg='提交成功!')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('addchoice.html',user=user, privilege=privilege,msg='提交成功!',current_time=current_time)
 
 
 
     else:
-        return render_template('addchoice.html')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('addchoice.html',user=user, privilege=privilege,current_time=current_time)
 
 
 @add.route('/judgeti',methods=['GET','POST'])
@@ -151,9 +183,19 @@ def addjudge():
         session.add(addanswer)
         session.commit()
         session.close()
-        return render_template('addjudege.html',msg='提交成功!')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('addjudege.html',user=user, privilege=privilege,msg='提交成功!',current_time=current_time)
     else:
-        return render_template('addjudege.html')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('addjudege.html',user=user, privilege=privilege,current_time=current_time)
 
 
 @add.route('/jiandati',methods=['GET','POST'])
@@ -184,6 +226,18 @@ def addjiandati():
         session.commit()
 
         session.close()
-        return render_template('addjiandati.html',msg='提交成功!')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('addjiandati.html',user=user, privilege=privilege,msg='提交成功!',current_time=current_time)
     else:
-        return render_template('addjiandati.html')
+        user = current_user._get_current_object()
+        if user.course == 0:
+            privilege = '管理员'
+        else:
+            privilege = '普通用户'
+        return render_template('addjiandati.html',user=user, privilege=privilege,current_time=current_time)
+
+

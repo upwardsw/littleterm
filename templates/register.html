@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+{% block html_attribs %}
+    <meta lang="zh" charset="UTF-8">
+    {{moment.include_jquery()}}
+    {{moment.include_moment()}}
+    <!--使用中文-->
+    {{moment.lang('zh-CN')}}
+{% endblock %}
 <head>
-    <meta charset="UTF-8">
     <title>register</title>
 </head>
 <body>
-<div>
+<div style="width: 50vh;height: 50vh;margin: 0 auto;" align="center">
+    <h3>登录</h3>
     <p>{{ msg }}</p>
     <form action="/register" method="post">
         <table>
@@ -28,5 +34,9 @@
         </table>
     </form>
 </div>
+{% block footer %}
+<div align="center" style="height: 50px;width: 100%;background-color: #ddd;position: fixed;bottom: 0;">
+    <p>{{moment(current_time).format('YYYY年M月D日, h:mm:ss a')}}</p>
+{% endblock %}
 </body>
 </html>

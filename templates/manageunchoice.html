@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-{% block html_attribs %} <meta lang="zh" charset="UTF-8">{% endblock %}
+{% block html_attribs %}
+    <meta lang="zh" charset="UTF-8">
+    {{moment.include_jquery()}}
+    {{moment.include_moment()}}
+    <!--使用中文-->
+    {{moment.lang('zh-CN')}}
+{% endblock %}
 <head>
     {% block title %}<title>管理非选择题</title>{% endblock %}
 </head>
@@ -15,14 +21,117 @@
 {% endblock %}
 
 {% block tables %}
-<div style="margin: 0 auto;text-align:center">
-<table cellpadding="10" style="color: black;background: antiquewhite;align-content: center;">
-    <p>点击添加按钮将题目添加到当前试卷</p>
+<div style="text-align:center">
+<form action="/manage/unchoice" method="post">
+    问题种类:<select id="qtype" name="qtype">
+                    <option value="3">大题--3</option>
+                    <option value="1">简答题--1</option>
+                    <option value="6">判断题--6</option>
+                    <option value="2">填空题--2</option>
+                </select>
+    <input type="hidden" id="start" name="=start" value="{{ start }}">
+    &nbsp;<input type="submit" value="查询" >
+</form>
+<a href="/manage/choice">跳转至选择题</a>&nbsp;&nbsp;<a href="/shijuan">查看试卷</a>
+<table cellpadding="10" style="height:auto;margin:0 auto;color: black;background: antiquewhite;align-content: center;">
     <tr>
-        <td>序号</td><td>题目</td><td>答案</td><td>有效</td><td>修改</td><td>添加</td>
+        <td style="width: auto">序号</td><td>题目</td><td>难度</td><td>答案</td><td>类别</td><td>有效</td><td>添加</td>
     </tr>
+    {% for question in result %}
+        <form action="/manage/changeunchoice" id="form{{ question.get('qid') }}" name="form{{ question.get('qid') }}" method="post">
+            <td>{{ question.get('qid') }}<input type="hidden" value="{{ question.get('qid') }}" id="qid{{ question.get('qid') }}" name="qid{{ question.get('qid') }}" readonly></td>
+            <td><input type="text" id="question{{ question.get('qid') }}" name="question{{ question.get('qid') }}" value="{{ question.get('question') }}" readonly></td>
+            <td><input style="width: 40px" type="number" id="level{{ question.get('qid') }}" name="level{{ question.get('qid') }}" max="5" min="1" value="{{ question.get('level') }}" readonly></td>
+            <td><input type="text" id="answer{{ question.get('qid') }}" name="answer{{ question.get('qid') }}" value="{{ question.get('level') }}" readonly></td>
+            <td><input type="number" style="width: 40px" id="course{{ question.get('qid') }}" name="course{{ question.get('qid') }}" value="{{ question.get('level') }}" readonly></td>
+            {% if question.get('delornot')==1 %}
+            <td><select readonly id="delornot{{ question.get('qid') }}" name="delornot{{ question.get('qid') }}"><option value="0" selected>是</option></select></td>
+            {% else %}
+             <td><select readonly id="delornot{{ question.get('qid') }}" name="delornot{{ question.get('qid') }}"><option value="1" selected>否</option></select></td>
+            {% endif %}
+            <td><input type="button" value="添加到试卷" onclick="tianjia({{ question.get('qid') }})"></td>
+        </form>
+    {% endfor %}
 </table>
+{% if result %}
+<form action="/manage/unchoice" method="post" id="pageturn" name="pageturn">
+    <input type="hidden" id="qtype" name="qtype" value="{{ result[0].get('type') }}">
+    当前从第<input style="width: 40px" type="number" id="start" name="start" value="{{ start }}" readonly>条记录开始
+    <input type="button" value="上一页" onclick="prepage()">
+    <input type="button" value="下一页" onclick="nextpage()">
+</form>
+{% endif %}
 </div>
 {% endblock %}
+{#<div>#}
+{#    <form method="post" action="/manage/unchoice">#}
+{#        <input type="number" id="qtype" name="qtype">#}
+{#        <input type="number" id="start" name="start">#}
+{#        <input type="number" id="end" name="end">#}
+{#        <input type="submit" value="submit">#}
+{#    </form>#}
+{#</div>#}
+{% block footer %}
+<div align="center" style="height: 50px;width: 100%;background-color: #ddd;position: fixed;bottom: 0;">
+    <p>{{moment(current_time).format('YYYY年M月D日, h:mm:ss a')}}</p>
+</div>
+{% endblock %}
+
+<script>
+    function tianjia(qid) {
+        $.post("/addunchoice",{qid})
+    }
+    function prepage() {
+        pagestart=document.getElementById("start");
+        if (pagestart>10) {
+            pagestart=pagestart-10;
+        }
+        else {
+            pagestart=0
+        }
+        document.getElementById("start").innerText=pagestart;
+        document.getElementById('pageturn').submit();
+    }
+    function nextpage() {
+        pagestart=document.getElementById("start");
+         pagestart=pagestart+10;
+        document.getElementById("start").innerText=pagestart;
+        document.getElementById('pageturn').submit();
+    }
+    {#function xiugai(qid) {#}
+    {#    questiontextid='question'+qid;#}
+    {#    leveltextid='level'+qid;#}
+    {#    coursetextid='course'+qid;#}
+    {#    answertextid='answer'+qid;#}
+    {#    delornottextid='delornot'+qid;#}
+    {#    var leveltext=document.getElementById(leveltextid).value;#}
+    {#    var questiontext=document.getElementById(questiontextid).value;#}
+    {#    var coursetext=document.getElementById(coursetextid).value;#}
+    {#    var answertext=document.getElementById(answertextid).value;#}
+    {#    var delornottext=document.getElementById(delornottextid).value;#}
+    {#    var data={#}
+    {#        "qid":qid,#}
+    {#        "question":questiontext,#}
+    {#        "delornot":delornottext,#}
+    {#        "level":leveltext,#}
+    {#        "course":coursetext,#}
+    {#        "answer":answertext#}
+    {#    }#}
+    {#    $.ajax(#}
+    {#        {#}
+    {#            type:'POST',#}
+    {#            url:'/manage/changeunchoice/',#}
+    {#            data:data,#}
+    {#            dataType:'json',#}
+    {#            success:function () {#}
+    {#                alert("修改成功");#}
+    {#            },#}
+    {#            error:function () {#}
+    {#                alert("修改失败");#}
+    {#            },#}
+    {#        }#}
+    {#    );#}
+    {# } #}
+</script>
 </body>
 </html>

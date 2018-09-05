@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+{% block html_attribs %}
+    <meta lang="zh" charset="UTF-8">
+    {{moment.include_jquery()}}
+    {{moment.include_moment()}}
+    <!--使用中文-->
+    {{moment.lang('zh-CN')}}
+{% endblock %}
 <head>
-    <meta charset="UTF-8">
     <title>login</title>
 </head>
 <body>
+<div style="width: 50vh;height: 50vh;margin: 0 auto;" align="center">
+    <h3>注册</h3>
 <form action="/login" method="post">
     <label>{{ msg }}</label><br>
     <label>邮箱:</label><input type="email" name="email" id="email" required><br>
@@ -13,5 +20,10 @@
     <input type="hidden" id="nexturl" name="nexturl" value="{{ nexturl }}">
     <input type="submit" value="登录"><a href="/register"><input type="button" value="注册"></a>
 </form>
+</div>
+{% block footer %}
+<div align="center" style="height: 50px;width: 100%;background-color: #ddd;position: fixed;bottom: 0;">
+    <p>{{moment(current_time).format('YYYY年M月D日, h:mm:ss a')}}</p>
+{% endblock %}
 </body>
 </html>

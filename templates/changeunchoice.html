@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form action="/manage/changes" method="post">
+        qid:<input type="number" id="qid" name="qid" value="{{ question.qid }}">
+        question:<input type="text" id="question" name="question" value="{{ question.question }}">
+        delornot:<input type="number" id="delornot" name="delornot" value="{{ question.delornot }}">
+        level:<input type="number" id="level" name="level" value="{{ question.level }}">
+        course:<input type="number" id="course" name="course" value="{{ question.course }}">
+        answer:<input type="text" id="answer" name="answer" value="{{ answer.qanswer }}">
+        <input type="submit" value="submit">
+    </form>
+</div>
+</body>
+</html>

@@ -20,37 +20,15 @@
   <div align="center"><h1>试卷生成系统</h1></div>
 {% endblock %}
 <div style="width: 300px;height:200px;margin: 0 auto;">
-<table>
+<table cellpadding="10" style="height:auto;margin:0 auto;color: black;background: antiquewhite;align-content: center;">
     <tr>
-        <th>当前用户:</th><td>{{ user.username }}</td>
+        <td>名称:</td><td>试卷</td><td>答案</td>
     </tr>
+    {% for i in result %}
     <tr>
-        <th>用户邮箱:</th><td>{{ user.email }}</td>
+        <td>{{ i }}</td><td><a href="/paper/{{ i }}" target="_blank">下载</a></td><td><a href="/answer/{{ i }}" target="_blank">下载</a></td>
     </tr>
-     <tr>
-        <th>用户权限:</th><td>{{ privilege }}</td>
-    </tr>
-    <tr>
-        <th>生成试卷:</th><td><a href="/generate/byhand">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>自动生成试卷:</th><td><a href="/generate/auto">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加选择题:</th><td><a href="/add/choice">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加填空题:</th><td><a href="/add/tiankongti">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加简答题:</th><td><a href="/add/jiandati">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加判断题:</th><td><a href="/add/judgeti">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加大题:</th><td><a href="/add/dati">点击此处</a></td>
-    </tr>
+    {% endfor %}
 </table>
 </div>
 {% block footer %}

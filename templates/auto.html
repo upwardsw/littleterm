@@ -7,7 +7,7 @@
     {{moment.lang('zh-CN')}}
 {% endblock %}
 <head>
-    {% block title %}<title>试卷生成系统</title>{% endblock %}
+    {% block title %}<title>试卷生成系统-自动生成</title>{% endblock %}
 </head>
 
 {% block navbar %}
@@ -17,41 +17,33 @@
 {% endblock %}
 
 {% block content %}
-  <div align="center"><h1>试卷生成系统</h1></div>
+  <div align="center"><h1>自动生成试卷</h1></div>
 {% endblock %}
-<div style="width: 300px;height:200px;margin: 0 auto;">
+<div style="width: 300px;height:200px;margin: 0 auto;" align="center">
+    <p>请填入各种题型的数目值</p>
+    <form action="/shijuan" method="post">
 <table>
     <tr>
-        <th>当前用户:</th><td>{{ user.username }}</td>
+        <th>单选题数</th><td><input type="number" id="danxuan" name="danxuan" required></td>
     </tr>
     <tr>
-        <th>用户邮箱:</th><td>{{ user.email }}</td>
+        <th>多选题数:</th><td><input type="number" id="duoxuan" name="duoxuan" required ></td>
     </tr>
      <tr>
-        <th>用户权限:</th><td>{{ privilege }}</td>
+        <th>判断题数:</th><td><input type="number" id="panduan" name="panduan" required></td>
     </tr>
     <tr>
-        <th>生成试卷:</th><td><a href="/generate/byhand">点击此处</a></td>
+        <th>填空题数:</th><td><input type="number" id="tiankong" name="tiankong" required></td>
     </tr>
     <tr>
-        <th>自动生成试卷:</th><td><a href="/generate/auto">点击此处</a></td>
+        <th>简答题数:</th><td><input type="number" id="jianda" name="jianda" required></td>
     </tr>
     <tr>
-        <th>添加选择题:</th><td><a href="/add/choice">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加填空题:</th><td><a href="/add/tiankongti">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加简答题:</th><td><a href="/add/jiandati">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加判断题:</th><td><a href="/add/judgeti">点击此处</a></td>
-    </tr>
-    <tr>
-        <th>添加大题:</th><td><a href="/add/dati">点击此处</a></td>
+        <th>大题数:</th><td><input type="number" id="dati" name="dati" required></td>
     </tr>
 </table>
+        <input type="submit" value="提交">
+        </form>
 </div>
 {% block footer %}
 <div align="center" style="height: 50px;width: 100%;background-color: #ddd;position: fixed;bottom: 0;">

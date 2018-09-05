@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+{% block html_attribs %}
+    <meta lang="zh" charset="UTF-8">
+    {{moment.include_jquery()}}
+    {{moment.include_moment()}}
+    <!--使用中文-->
+    {{moment.lang('zh-CN')}}
+{% endblock %}
 <head>
-    <meta charset="UTF-8">
     <title>添加选择题</title>
 </head>
 <body>
-<div>
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+    <div style=" float:left" align="left"><label><a href="/main">首页</a></label></div><div align="right"><select onchange="window.open(this.options[this.selectedIndex].value,target='_self')"><option selected>{{ privilege }}:{{ user.username }}</option><option value="/logout">注销登录</option></select></div>
+</div>
+{% endblock %}
+<div style="width: 50vh;height: 50vh;margin: 0 auto;" align="center">
+    <h3>添加选择题</h3>
     <form action="/add/choice" method="post">
         <table>
             <tr>
@@ -28,5 +39,9 @@
     </form>
     <p>{{ msg }}</p>
 </div>
+{% block footer %}
+<div align="center" style="height: 50px;width: 100%;background-color: #ddd;position: fixed;bottom: 0;">
+    <p>{{moment(current_time).format('YYYY年M月D日, h:mm:ss a')}}</p>
+{% endblock %}
 </body>
 </html>
