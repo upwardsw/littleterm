@@ -68,7 +68,6 @@ def getanswer(qid):
             # jiandati
             if data.type == 1:
                 answer = '{}'.format(session.query(qanswer).filter(qanswer.question_qid == data.qid).first().qanswer)
-                # print(session.query(qanswer).filter(qanswer.question_qid == data.qid).first().qanswer)
                 return Response(response=json.dumps(answer, ensure_ascii=False))
             # tiankong
             if data.type == 2:

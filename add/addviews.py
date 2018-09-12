@@ -70,24 +70,24 @@ def adddati():
 @login_required
 def addtiankong():
     if request.method == 'POST':
-        session = DBSession()
+        session = DBSession() # 获取连接
         answer = request.form['answer']
         addquestion = request.form['question']
         level = request.form['level']
         course = request.form['course']
-
         data = question()
         data.question = addquestion
         data.level = level
         data.delornot = False
         data.type = 2
         data.course = course
+        # 添加问题到数据库
         session.add(data)
         session.commit()
-
         addanswer = qanswer()
         addanswer.question_qid = data.qid
         addanswer.qanswer = answer
+        # 添加答案到对应的数据表
         session.add(addanswer)
         session.commit()
 
@@ -125,8 +125,9 @@ def addchoice():
         data.question = addquestion
         data.level = level
         data.delornot = False
-        if len(answer)==1:data.type=5
-        else:data.type=4
+        # if len(answer)==1:data.type=5
+        # else:data.type=4
+        data.type=4
         data.course = course
         session.add(data)
         session.commit()

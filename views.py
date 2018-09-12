@@ -26,14 +26,14 @@ from tables import User, question, qanswer, choices, paper
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '`~1!2@3#4$5%6^7&8*9(0)-_=+'
 login_manager = LoginManager()
-login_manager.init_app(app)
-Bootstrap(app)
+login_manager.init_app(app)  # flask-login模块初始化
+Bootstrap(app)  # BootStrap支持
 login_manager.login_view = "login"
 login_manager.session_protection = "strong"
-moment = Moment(app)
-CORS(app)
-current_time = datetime.utcnow()
+moment = Moment(app)  # 本地化时间支持
+CORS(app)  # 跨域请求支持
 
+current_time = datetime.utcnow()
 engine = create_engine(
     'mysql+pymysql://arlen:5609651Wmm!@47.94.138.25:3306/papergenerate?charset=utf8', encoding="utf-8", echo=True,
     pool_recycle=21600, pool_size=8, max_overflow=5)
@@ -41,13 +41,13 @@ DBSession = sessionmaker(bind=engine)
 
 nowpaper = paper()
 
-# add part
+# 添加模块
 app.register_blueprint(add_blueprint, )
-# get part
+# 获取模块
 app.register_blueprint(get_blueprint)
-# manage part
+# 管理模块
 app.register_blueprint(manage_blueprint)
-# generate part
+# 生成模块
 app.register_blueprint(generate_blueprint)
 
 
@@ -97,8 +97,6 @@ def login():
             rem = True
         except:
             rem = False
-        # print(rem)
-        # print(email, password)
         connect = DBSession()
         try:
             user = connect.query(User).filter(User.email == email).first()
@@ -114,7 +112,6 @@ def login():
         except:
             connect.close()
             return render_template('login.html', msg='用户名'.format(email), current_time=current_time)
-
     else:
         next = request.values.get('next')
         print(next)
@@ -266,6 +263,7 @@ def shijaun():
             privilege = '普通用户'
         result = []
         session = DBSession()
+        # 遍历试卷所有题目，获取题目信息并返回
         for i in paper.danxuan:
             data = session.query(question).filter(question.qid == i).first()
             result.append([data.qid, data.question, '单选', data.level, data.course])
@@ -377,17 +375,17 @@ def savefile():
                     answercount=truesession.query(choices).filter(choices.question_qid==i and choices.torf==1).count()
                     wronganswer=wrongsession.query(choices).filter(choices.question_qid==i and choices.torf==0).all()
                     wronganswercount=wrongsession.query(choices).filter(choices.question_qid==i and choices.torf==0).count()
-                    fourchoices=[]
-                    newanswer=answer[random.randint(0,answercount-1)]
-                    fourchoices.append(newanswer.choice)
-                    txtanswer.append([paper.xuhao+1,newanswer.choice])
+                    fourchoices=[] # 4个选项
+                    newanswer=answer[random.randint(0,answercount-1)]  # 随机从正确选项中选出一个
+                    fourchoices.append(newanswer.choice) # 存入选项数组
+                    txtanswer.append([paper.xuhao+1,newanswer.choice]) # 存入答案数组
                     paper.xuhao+=1
-                    resultlist=generateRand(0,wronganswercount,3,resultlist)
+                    resultlist=generateRand(0,wronganswercount,3,resultlist) # 随机从错误选项中抽取3个选项
+                    # 将抽出的3个错误选项存入选项数组
                     for j in resultlist:
-                        # print(j)
-                        # print(wronganswercount)
                         fourchoices.append(wronganswer[j].choice)
-                    random.shuffle(fourchoices)
+                    random.shuffle(fourchoices) # 打乱选项数组
+                    # 将4个选项写入文件
                     for k in range(0,4):
                         f.writelines('{0}.{1}\n'.format(ABCD[k],fourchoices[k]))
                     f.writelines('\n')
@@ -397,33 +395,41 @@ def savefile():
                 f.write('{0}\n'.format(title))
                 paper.title += 1
                 for i in paper.duoxuan:
-                    resultlist = []
-                    fourchoices = []
-                    mulchoice=[]
+                    resultlist = [] # 随机数数组
+                    fourchoices = [] # 选项数组
+                    mulchoice=[] # 正确选项数组
                     data = session.query(question).filter(question.qid == i).first()
                     f.writelines('{0}.{1}\n'.format(paper.xuhao + 1, data.question))
+                    # 获取数据库中正确选项和正确选项数量
                     answer = truesession.query(choices).filter(choices.question_qid == i and choices.torf == 1).all()
                     answercount = truesession.query(choices).filter(choices.question_qid == i and choices.torf==1).count()
+                    # 获取数据库中错误选项和错误选项数量
                     wronganswer = wrongsession.query(choices).filter(
                         choices.question_qid == i and choices.torf == 0).all()
                     wronganswercount = wrongsession.query(choices).filter(
                         choices.question_qid == i and choices.torf == 0).count()
+                    # 生成需要的正确选项数量和错误选项数量
                     answernum=random.randint(0,answercount-1)
                     wronganswernum=random.randint(0,wronganswercount-1)
+                    # 生成正确选项数量个数的正确选项下标
                     resultlist=generateRand(0, answercount, answernum,resultlist)
+                    # 根据下标将需要的正确选项写入选项数组
                     for j in resultlist:
                         nowanswer=answer[j]
                         fourchoices.append(nowanswer.choice)
                         mulchoice.append(nowanswer.choice)
                     resultlist = []
+                    # 生成错误选项数量个数的错误选项下标
                     resultlist=generateRand(0, wronganswercount, wronganswernum,  resultlist)
+                    # 根据下标将需要的错误选项写入选项数组
                     for k in resultlist:
                         nowanswer = wronganswer[k]
                         fourchoices.append(nowanswer.choice)
-                    random.shuffle(fourchoices)
+                    random.shuffle(fourchoices) # 打乱选项数组
+                    # 将选项数组写入文件
                     for m in range(0,len(fourchoices)):
                         f.writelines('{0}.{1}\n'.format(ABCD[m],fourchoices[m]))
-                    txtanswer.append([paper.xuhao+1,"".join(mulchoice)])
+                    txtanswer.append([paper.xuhao+1,"".join(mulchoice)]) # 将正确选项写入答案
                     f.writelines('\n')
                     paper.xuhao+=1
 
@@ -433,6 +439,7 @@ def savefile():
                 title = '{0}.{1}'.format(paper.gettitlenum(paper), '填空题')
                 f.write('{0}\n'.format(title))
                 paper.title += 1
+                # 遍历添加到试卷的所有填空题qid
                 for i in paper.tiankong:
                     data=session.query(question).filter(question.qid==i).first()
                     answer=truesession.query(qanswer).filter(qanswer.question_qid==i).first()
@@ -445,6 +452,7 @@ def savefile():
                 title = '{0}.{1}'.format(paper.gettitlenum(paper), '判断题')
                 f.write('{0}\n'.format(title))
                 paper.title += 1
+                # 遍历添加到试卷的所有判断题qid
                 for i in paper.pandaun:
                     data=session.query(question).filter(question.qid==i).first()
                     answer=truesession.query(qanswer).filter(qanswer.question_qid==i).first()
@@ -457,6 +465,7 @@ def savefile():
                 title = '{0}.{1}'.format(paper.gettitlenum(paper), '简答题')
                 f.write('{0}\n'.format(title))
                 paper.title += 1
+                # 遍历添加到试卷的所有简答题qid
                 for i in paper.jianda:
                     data=session.query(question).filter(question.qid==i).first()
                     answer=truesession.query(qanswer).filter(qanswer.question_qid==i).first()
@@ -469,6 +478,7 @@ def savefile():
                 title = '{0}.{1}'.format(paper.gettitlenum(paper), '大题')
                 f.write('{0}\n'.format(title))
                 paper.title += 1
+                # 遍历添加到试卷的所有大题qid
                 for i in paper.dati:
                     data=session.query(question).filter(question.qid==i).first()
                     answer=truesession.query(qanswer).filter(qanswer.question_qid==i).first()

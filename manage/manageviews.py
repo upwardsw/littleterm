@@ -201,6 +201,7 @@ def changechoice():
 
         cquestion=session.query(question).filter(question.qid==qid).first()
         deldata=newsession.query(choices).filter(choices.question_qid==cquestion.qid).all()
+        # 删除该问题下所有选项
         for m in deldata:
             newsession.delete(m)
         # cqanswer=newsession.query(qanswer).filter(qanswer.question_qid==cquestion.qid).first()
@@ -208,7 +209,7 @@ def changechoice():
         cquestion.delornot=dornot
         cquestion.level=level
         cquestion.course=course
-
+        # 重新写入所有选项
         p1 = re.compile(r"[[](.*?)[]]", re.S)  # 最小匹配
         answer = re.findall(p1, newanswer)
         wronganswer = re.findall(p1, wronganswer)

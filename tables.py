@@ -61,7 +61,7 @@ class paper:
     jianda = []
     tiankong = []
     dati = []
-
+    # 添加非选择题到试卷
     def addquestion(self, question):
         if question.type == 1:
             self.jianda.append(question.qid)
@@ -77,15 +77,15 @@ class paper:
             return True
         else:
             return False
-
+    # 添加单选题到试卷
     def adddanxuan(self, question):
         self.danxuan.append(question.qid)
         return True
-
+    # 添加多选题到试卷
     def addduoxuan(self, question):
         self.duoxuan.append(question.qid)
         return True
-
+    # 获取大题序号
     def gettitlenum(self):
         return {
             0: '一',
@@ -135,12 +135,7 @@ class paper:
 
     def writetopaper(self,userid,filename):
         pass
-
-
-
-
-
-
+    # 清空试卷
     def clear(self):
         self.title=0
         self.xuhao=0
